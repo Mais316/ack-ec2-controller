@@ -1504,7 +1504,7 @@ type ENASrdUDPSpecificationRequest struct {
 }
 
 // Describes an egress-only internet gateway.
-type EgressOnlyInternetGateway struct {
+type EgressOnlyInternetGateway_SDK struct {
 	Attachments                 []*InternetGatewayAttachment `json:"attachments,omitempty"`
 	EgressOnlyInternetGatewayID *string                      `json:"egressOnlyInternetGatewayID,omitempty"`
 	Tags                        []*Tag                       `json:"tags,omitempty"`

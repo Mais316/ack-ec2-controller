@@ -24,6 +24,11 @@ ignore:
     - CreateFlowLogsInput.TagSpecifications
     - CreateFlowLogsInput.ResourceIds
     - CreateFlowLogsOutput.FlowLogIds
+    - CreateEgressOnlyInternetGatewayInput.DryRun
+    - CreateEgressOnlyInternetGatewayInput.ClientToken
+    - CreateEgressOnlyInternetGatewayInput.TagSpecifications
+    - CreateEgressOnlyInternetGatewayOutput.ClientToken
+    - DeleteEgressOnlyInternetGatewayInput.DryRun
     - CreateInternetGatewayInput.DryRun
     - CreateInternetGatewayInput.TagSpecifications
     - CreateNatGatewayInput.ClientToken
@@ -173,7 +178,7 @@ ignore:
     - DefaultVpc
     - DelegateMacVolumeOwnershipTask
     #- DhcpOptions
-    - EgressOnlyInternetGateway
+    #- EgressOnlyInternetGateway
     - Fleet
     - FpgaImage
     - Image
@@ -290,6 +295,8 @@ operations:
     custom_check_required_fields_missing_method: checkForMissingRequiredFields
   DescribeManagedPrefixLists:
     custom_check_required_fields_missing_method: checkForMissingRequiredFields
+  CreateEgressOnlyInternetGateway:
+    output_wrapper_field_path: EgressOnlyInternetGateway
   CreateNatGateway:
     output_wrapper_field_path: NatGateway
   CreateNetworkAcl:
@@ -537,6 +544,24 @@ resources:
         template_path: hooks/flow_log/post_populate_resource_from_annotation.go.tpl
     update_operation:
       custom_method_name: customUpdateFlowLog
+  EgressOnlyInternetGateway:
+    fields:
+      EgressOnlyInternetGatewayID:
+        print:
+          name: ID
+      VpcId:
+        references:
+          resource: VPC
+          path: Status.VPCID
+      Tags:
+        from:
+          operation: CreateTags
+          path: Tags
+    hooks:
+      sdk_create_post_build_request:
+        template_path: hooks/egress_only_internet_gateway/sdk_create_post_build_request.go.tpl
+      sdk_file_end:
+        template_path: hooks/egress_only_internet_gateway/sdk_file_end.go.tpl
   InternetGateway:
     fields:
       Tags:
