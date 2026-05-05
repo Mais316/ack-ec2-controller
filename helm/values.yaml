@@ -152,6 +152,7 @@ reconcile:
   resources:
     - CapacityReservation
     - DHCPOptions
+    - EgressOnlyInternetGateway
     - ElasticIPAddress
     - FlowLog
     - Instance
